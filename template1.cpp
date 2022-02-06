@@ -14,10 +14,13 @@ class CRM {
 		int* colPos; //Array that contains the column number for each one of the non-zero values in the original matrix.
 		int colIterator = 0;
 					 //There may be others you may need
+		int rowCur = 0;
+		int rowPrev = -1;
 	public:
 		CRM ( ); //default or empty constructor
 		CRM (int rows, int cols, int numNonZeros);
 		int getNumRows ( );
+		int getNumNonZeros();
 		void addValue (int value); //add a new value in the values array
 		void addRow (int row); //add a row number in the rowPos array
 		void addColumn (int col);//add a column number in the colPos array
@@ -51,6 +54,11 @@ CRM::CRM (int rows, int cols, int numNonZeros) {
 
 int CRM::getNumRows()
 {
+	return n;
+}
+
+int CRM::getNumNonZeros()
+{
 	return nonZeros;
 }
 
@@ -62,8 +70,21 @@ void CRM::addValue(int value)
 
 void CRM::addRow(int row)
 {
-	rowPos[rowIterator] = row;
-	rowIterator++;
+	rowCur = row;
+
+	// make this into > rowPrev + 1?
+	if (rowCur == rowPrev + 2) {
+		rowPos[rowIterator] = -1;
+		rowIterator++;
+		rowPrev++;
+	}
+	if (rowCur == (rowPrev + 1)) {
+		rowPos[rowIterator] = values[valueIterator - 1];
+		rowIterator++ ;
+	}
+	
+	rowPrev = rowCur;
+	
 }
 
 void CRM::addColumn(int col)
@@ -74,7 +95,7 @@ void CRM::addColumn(int col)
 
 void CRM::display()
 {
-	for (int i = 0; i < getNumRows(); i++) {
+	for (int i = 0; i < getNumNonZeros(); i++) {
 		cout << values[i] << " ";
 	}
 	cout << endl;
@@ -82,7 +103,7 @@ void CRM::display()
 		cout << rowPos[i] << " ";
 	}
 	cout << endl;
-	for (int i = 0; i < getNumRows(); i++) {
+	for (int i = 0; i < getNumNonZeros(); i++) {
 		cout << colPos[i] << " ";
 	}
 
@@ -145,7 +166,7 @@ int main ( ) {
    cout << "please work" << endl;
 
    // put in numNonZeros as number of iterations of this loop
-   for (int i=0; i < (*A).getNumRows(); i++) {
+   for (int i=0; i < (*A).getNumNonZeros(); i++) {
 	   // read in row of information
 	cin >> row >> col >> value;
 	(*A).addValue (value);

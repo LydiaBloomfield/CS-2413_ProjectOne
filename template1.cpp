@@ -1,4 +1,5 @@
 #include <iostream>
+#include "template1.h"
 using namespace std;
 
 class CRM {
@@ -7,9 +8,12 @@ class CRM {
 		int m; //The number of columns of the original matrix
 		int nonZeros; //The number of non-zero elements in the original matrix
 		int* values; //Array that contains all non-zero values of the matrix, assuming they are all integers
+		int valueIterator = 0;
 		int* rowPos; //Array that for each row of the original matrix contains the position in the values matrix in which the first non-zero element of this row is stored.
+		int rowIterator = 0;
 		int* colPos; //Array that contains the column number for each one of the non-zero values in the original matrix.
-		//There may be others you may need
+		int colIterator = 0;
+					 //There may be others you may need
 	public:
 		CRM ( ); //default or empty constructor
 		CRM (int rows, int cols, int numNonZeros);
@@ -47,27 +51,46 @@ CRM::CRM (int rows, int cols, int numNonZeros) {
 
 int CRM::getNumRows()
 {
-	return 0;
+	return nonZeros;
 }
 
 void CRM::addValue(int value)
 {
+	values[valueIterator] = value;
+	valueIterator++;
 }
 
 void CRM::addRow(int row)
 {
+	rowPos[rowIterator] = row;
+	rowIterator++;
 }
 
 void CRM::addColumn(int col)
 {
+	colPos[colIterator] = col;
+	colIterator++;
 }
 
 void CRM::display()
 {
+	for (int i = 0; i < getNumRows(); i++) {
+		cout << values[i] << " ";
+	}
+	cout << endl;
+	for (int i = 0; i < getNumRows(); i++) {
+		cout << rowPos[i] << " ";
+	}
+	cout << endl;
+	for (int i = 0; i < getNumRows(); i++) {
+		cout << colPos[i] << " ";
+	}
+
 }
 
 int CRM::mostInfluentialUser(){
 //fill in the code
+	return 0;
 }
 int CRM::mostActiveUser()
 {
@@ -101,8 +124,8 @@ CRM::~CRM ( ) {
 }
 
 
-#include <iostream>
-using namespace std;
+//#include <iostream>
+//using namespace std;
 
 //write the entire CRM class here with all the methods
 
@@ -118,44 +141,50 @@ int main ( ) {
 
    A = new CRM (numRows, numColumns, numNonZeros);
 
+   
+   cout << "please work" << endl;
+
    // put in numNonZeros as number of iterations of this loop
-   for (int i=0; i < numNonZeros; i++) {
+   for (int i=0; i < (*A).getNumRows(); i++) {
 	   // read in row of information
 	cin >> row >> col >> value;
 	(*A).addValue (value);
 	(*A).addRow (row);//needs to be done cleverly in the method
 	(*A).addColumn (col);
    }
+
+   cout << " this also worked!";
+
    (*A).display ( );
-
-//Find most influential user
-	int mostInf = (*A).mostInfluentialUser ();
-	cout << "Most influential user: " << mostInf << endl;
-	cout << endl;
-
-//Find most active user
-	int mostAct = ___
-	cout << "Most active user: " << mostAct << endl;
-	cout << endl;
-
-//Rank users based on how much influential they are
-    int* influentialityVector = (*A).influentialUsers ();
-	cout << "Users ranked by Influentiality: " << endl;
-    for (int i=0; i < (*A).getNumRows ( ); i++) 
-		cout << influentialityVector [i] << " ";
-    cout << endl << endl;
-
-//Rank users based on how much active they are
-//fill-in code
-	cout << "Users ranked by Activity: " << endl;
-    for (int i=0; i < (*A).getNumRows ( ); i++) 
-		cout << ___ << " ";
-    cout << endl;
-
-// Call the destructors
-     delete A;
-     delete [ ] influentialVector;
-     delete ___; 
+//
+////Find most influential user
+//	int mostInf = (*A).mostInfluentialUser ();
+//	cout << "Most influential user: " << mostInf << endl;
+//	cout << endl;
+//
+////Find most active user
+//	int mostAct = ___
+//	cout << "Most active user: " << mostAct << endl;
+//	cout << endl;
+//
+////Rank users based on how much influential they are
+//    int* influentialityVector = (*A).influentialUsers ();
+//	cout << "Users ranked by Influentiality: " << endl;
+//    for (int i=0; i < (*A).getNumRows ( ); i++) 
+//		cout << influentialityVector [i] << " ";
+//    cout << endl << endl;
+//
+////Rank users based on how much active they are
+////fill-in code
+//	cout << "Users ranked by Activity: " << endl;
+//    for (int i=0; i < (*A).getNumRows ( ); i++) 
+//		cout << ___ << " ";
+//    cout << endl;
+//
+//// Call the destructors
+//     delete A;
+//     delete [ ] influentialVector;
+//     delete ___; 
 
     return 0;
 }

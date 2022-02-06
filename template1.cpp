@@ -34,6 +34,7 @@ CRM::CRM ( ) {
 	rowPos = NULL;
 	colPos = NULL;
 }
+
 CRM::CRM (int rows, int cols, int numNonZeros) {
 	n = rows;
 	m = cols;
@@ -42,9 +43,38 @@ CRM::CRM (int rows, int cols, int numNonZeros) {
 	rowPos = new int [n];
 	colPos = new int [nonZeros];
 }
+
+
+int CRM::getNumRows()
+{
+	return 0;
+}
+
+void CRM::addValue(int value)
+{
+}
+
+void CRM::addRow(int row)
+{
+}
+
+void CRM::addColumn(int col)
+{
+}
+
+void CRM::display()
+{
+}
+
 int CRM::mostInfluentialUser(){
 //fill in the code
-};
+}
+int CRM::mostActiveUser()
+{
+	return 0;
+}
+;
+
 int* CRM::influentialUsers (){
 	int* outputVector = new int [n];
 	
@@ -54,6 +84,12 @@ int* CRM::influentialUsers (){
 
 	return outputVector;
 }
+
+int* CRM::activeUsers()
+{
+	return nullptr;
+}
+
 CRM::~CRM ( ) {
 	if (values != NULL) delete [ ] values;
 	if (rowPos != NULL) delete [ ] rowPos;
@@ -81,7 +117,10 @@ int main ( ) {
    cin >> numNonZeros;
 
    A = new CRM (numRows, numColumns, numNonZeros);
-   for (int i=0; i < ___; i++) {
+
+   // put in numNonZeros as number of iterations of this loop
+   for (int i=0; i < numNonZeros; i++) {
+	   // read in row of information
 	cin >> row >> col >> value;
 	(*A).addValue (value);
 	(*A).addRow (row);//needs to be done cleverly in the method

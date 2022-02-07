@@ -107,14 +107,15 @@ void CRM::addColumn(int col)
 
 void CRM::display()
 {
+	cout << "values: ";
 	for (int i = 0; i < nonZeros; i++) {
 		cout << values[i] << " ";
 	}
-	cout << endl;
+	cout << "\n rowPos: ";
 	for (int i = 0; i < n; i++) {
 		cout << rowPos[i] << " ";
 	}
-	cout << endl;
+	cout << "\n colPos: ";
 	for (int i = 0; i < nonZeros; i++) {
 		cout << colPos[i] << " ";
 	}
@@ -174,9 +175,6 @@ int main ( ) {
 
    A = new CRM (numRows, numColumns, numNonZeros);
 
-   
-   cout << "please work" << endl;
-
    // put in numNonZeros as number of iterations of this loop
    for (int i=0; i < (*A).getNumNonZeros(); i++) {
 	   // read in row of information
@@ -185,8 +183,6 @@ int main ( ) {
 	(*A).addRow (row);//needs to be done cleverly in the method
 	(*A).addColumn (col);
    }
-
-   cout << " this also worked!";
 
    (*A).display ( );
 //

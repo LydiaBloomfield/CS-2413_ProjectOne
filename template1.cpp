@@ -72,17 +72,29 @@ void CRM::addRow(int row)
 {
 	rowCur = row;
 
-	// make this into > rowPrev + 1?
-	if (rowCur == rowPrev + 2) {
+	// if we encounter a user with no retweets, put -1 in rowPos 
+	// condense w [rowIterator++]
+	while (rowCur > rowPrev + 1) {
 		rowPos[rowIterator] = -1;
 		rowIterator++;
 		rowPrev++;
 	}
+
+	// if the current row is equal to previous row plus one, place the value found in the values array in the rowPos array
 	if (rowCur == (rowPrev + 1)) {
-		rowPos[rowIterator] = values[valueIterator - 1];
+		rowPos[rowIterator] = valueIterator - 1;
 		rowIterator++ ;
 	}
-	
+
+	// if you've gotten to the end of the values array, and there are a bunch of users with no retweets at the end,
+	//add in -1 to the end of the rowPos array until the row pos array reaches its end
+	if (valueIterator == nonZeros) {
+
+		while (rowIterator < n) {
+			rowPos[rowIterator] = -1;
+			rowIterator++;
+		}
+	}
 	rowPrev = rowCur;
 	
 }
@@ -95,15 +107,15 @@ void CRM::addColumn(int col)
 
 void CRM::display()
 {
-	for (int i = 0; i < getNumNonZeros(); i++) {
+	for (int i = 0; i < nonZeros; i++) {
 		cout << values[i] << " ";
 	}
 	cout << endl;
-	for (int i = 0; i < getNumRows(); i++) {
+	for (int i = 0; i < n; i++) {
 		cout << rowPos[i] << " ";
 	}
 	cout << endl;
-	for (int i = 0; i < getNumNonZeros(); i++) {
+	for (int i = 0; i < nonZeros; i++) {
 		cout << colPos[i] << " ";
 	}
 

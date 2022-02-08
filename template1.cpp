@@ -121,18 +121,10 @@ void CRM::display()
 	for (int i = 0; i < nonZeros; i++) {
 		cout << colPos[i] << " ";
 	}
-
 }
 
 int CRM::mostInfluentialUser(){
-//fill in the code
 	int* copy = influentiality();
-
-	/*cout << "printing: ";
-	for (int i = 0; i < n; i++) {
-		cout << copy[i] << " ";
-	}*/
-
 	int max = 0;
 	int maxIndex = 0;
 	
@@ -147,7 +139,17 @@ int CRM::mostInfluentialUser(){
 
 int CRM::mostActiveUser()
 {
-	return 0;
+	int* copy = activity();
+	int max = 0;
+	int maxIndex = 0;
+
+	for (int i = 0; i < n; i++) {
+		if (copy[i] > max) {
+			max = copy[i];
+			maxIndex = i;
+		}
+	}
+	return maxIndex;
 }
 
 // Helper method
@@ -173,7 +175,27 @@ int* CRM::influentiality()
 
 int* CRM::activity()
 {
-	return nullptr;
+	int* outputVector = new int[n];
+	for (int i = 0; i < n; i++) outputVector[i] = 0;
+
+	int indexOfValues = 0;
+
+	// index of output vector
+	for (int i = 0; i < n; i++) {
+		int total = 0;
+
+		//Iterate through values array
+		do{
+			total += values[indexOfValues];
+			indexOfValues++;
+		} while (indexOfValues < rowPos[i + 1]);
+		
+		outputVector[i] = total;
+	}
+	/*for (int k = 0; k < n; k++) {
+		cout << outputVector[k] << " ";
+	}*/
+	return outputVector;
 }
 ;
 
@@ -185,12 +207,42 @@ int* CRM::influentialUsers() {
 	int ciTemp;
 	int i, j, temp;
 	
+	// selection sort
 	for (i = 0; i < n; i++) {
-
 		for (j = i + 1; j < n; j++) {
-
 			if (copy[i] < copy[j]) {
+				temp = copy[i];
+				ciTemp = outputVector[i];
 
+				copy[i] = copy[j];
+				outputVector[i] = outputVector[j];
+
+				copy[j] = temp;
+				outputVector[j] = ciTemp;	
+			}
+		}
+	}
+
+	/*for (int i = 0; i < n; i++) {
+		cout << copy[i] << " ";
+	}*/
+
+	return outputVector;
+}
+
+int* CRM::activeUsers()
+{
+	int* copy = activity();
+	int* outputVector = new int[n];
+	for (int i = 0; i < n; i++) outputVector[i] = i;
+
+	int ciTemp;
+	int i, j, temp;
+
+	// selection sort
+	for (i = 0; i < n; i++) {
+		for (j = i + 1; j < n; j++) {
+			if (copy[i] < copy[j]) {
 				temp = copy[i];
 				ciTemp = outputVector[i];
 
@@ -199,21 +251,14 @@ int* CRM::influentialUsers() {
 
 				copy[j] = temp;
 				outputVector[j] = ciTemp;
-				
 			}
 		}
 	}
 
-	for (int i = 0; i < n; i++) {
+	/*for (int i = 0; i < n; i++) {
 		cout << copy[i] << " ";
-	}
-
+	}*/
 	return outputVector;
-}
-
-int* CRM::activeUsers()
-{
-	return nullptr;
 }
 
 CRM::~CRM ( ) {
@@ -225,12 +270,6 @@ CRM::~CRM ( ) {
 	m = 0;
 	nonZeros = 0;
 }
-
-
-//#include <iostream>
-//using namespace std;
-
-//write the entire CRM class here with all the methods
 
 int main ( ) {
 
@@ -260,24 +299,30 @@ int main ( ) {
 	cout << "Most influential user: " << mostInf << endl;
 	cout << endl;
 
-////Find most active user
-//	int mostAct = ___
-//	cout << "Most active user: " << mostAct << endl;
-//	cout << endl;
-//
+//Find most active user
+
+	(*A).activity();
+	cout << endl;
+
+	int mostAct = (*A).mostActiveUser();
+	cout << "Most active user: " << mostAct << endl;
+	cout << endl;
+
+
 // Rank users based on how much influential they are
     int* influentialityVector = (*A).influentialUsers ();
 	cout << "Users ranked by Influentiality: " << endl;
     for (int i=0; i < (*A).getNumRows ( ); i++) 
 		cout << influentialityVector [i] << " ";
     cout << endl << endl;
-//
-////Rank users based on how much active they are
-////fill-in code
-//	cout << "Users ranked by Activity: " << endl;
-//    for (int i=0; i < (*A).getNumRows ( ); i++) 
-//		cout << ___ << " ";
-//    cout << endl;
+
+//Rank users based on how much active they are
+//fill-in code
+	int* activityVector = (*A).activeUsers();
+	cout << "Users ranked by Activity: " << endl;
+    for (int i=0; i < (*A).getNumRows ( ); i++) 
+		cout << activityVector[i] << " ";
+    cout << endl;
 //
 //// Call the destructors
 //     delete A;

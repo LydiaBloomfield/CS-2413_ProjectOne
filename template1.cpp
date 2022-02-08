@@ -28,6 +28,8 @@ class CRM {
                         //new line character) and you have exactly a single space between each value printed.
 		int mostInfluentialUser(); //find the most influential user
 		int mostActiveUser(); //find the most active user
+		int* influentiality(); // array of each users influentiality (unranked)
+		int* activity(); // array of each users activity (unranked)
 		int* influentialUsers (); //compute vector of users ranked by how much influential they are
 		int* activeUsers (); //compute vector of users ranked by how much active they are
 		~CRM(); //destructor
@@ -124,20 +126,58 @@ void CRM::display()
 
 int CRM::mostInfluentialUser(){
 //fill in the code
-	return 0;
+	int* copy = influentiality();
+	int max = 0;
+	int maxIndex = 0;
+	
+	for (int i = 0; i < n; i++) {
+		if (copy[i] > max) {
+			max = copy[i];
+			maxIndex = i;
+		}
+	}
+	return maxIndex;
 }
+
 int CRM::mostActiveUser()
 {
 	return 0;
+}
+
+// Helper method
+int* CRM::influentiality()
+{
+	int* outputVector = new int[n];
+	for (int i = 0; i < n; i++) outputVector[i] = 0;
+
+	// index of the output vector
+	for (int i = 0; i < n; i++) {
+		// iterate through the colPos array
+		int total = 0;
+		for (int j = 0; j < nonZeros; j++) {
+
+			// if the value in the colPos array is the same as the column of the current user, add it to the user's total
+			if (colPos[j] == i) {
+				total += values[j];
+			}
+
+		}
+		outputVector[i] = total;
+	}
+	return outputVector;
+}
+
+int* CRM::activity()
+{
+	return nullptr;
 }
 ;
 
 int* CRM::influentialUsers (){
 	int* outputVector = new int [n];
-	
-	for (int i=0; i < n; i++) outputVector[i] =0;
+	for (int i = 0; i < n; i++) outputVector[i] = 0;
 
-//fill in the code
+	
 
 	return outputVector;
 }
@@ -185,23 +225,23 @@ int main ( ) {
    }
 
    (*A).display ( );
-//
-////Find most influential user
-//	int mostInf = (*A).mostInfluentialUser ();
-//	cout << "Most influential user: " << mostInf << endl;
-//	cout << endl;
-//
+
+//Find most influential user
+	int mostInf = (*A).mostInfluentialUser ();
+	cout << "Most influential user: " << mostInf << endl;
+	cout << endl;
+
 ////Find most active user
 //	int mostAct = ___
 //	cout << "Most active user: " << mostAct << endl;
 //	cout << endl;
 //
-////Rank users based on how much influential they are
-//    int* influentialityVector = (*A).influentialUsers ();
-//	cout << "Users ranked by Influentiality: " << endl;
-//    for (int i=0; i < (*A).getNumRows ( ); i++) 
-//		cout << influentialityVector [i] << " ";
-//    cout << endl << endl;
+//Rank users based on how much influential they are
+ //   int* influentialityVector = (*A).influentialUsers ();
+	//cout << "Users ranked by Influentiality: " << endl;
+ //   for (int i=0; i < (*A).getNumRows ( ); i++) 
+	//	cout << influentialityVector [i] << " ";
+ //   cout << endl << endl;
 //
 ////Rank users based on how much active they are
 ////fill-in code

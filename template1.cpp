@@ -127,6 +127,12 @@ void CRM::display()
 int CRM::mostInfluentialUser(){
 //fill in the code
 	int* copy = influentiality();
+
+	/*cout << "printing: ";
+	for (int i = 0; i < n; i++) {
+		cout << copy[i] << " ";
+	}*/
+
 	int max = 0;
 	int maxIndex = 0;
 	
@@ -155,12 +161,10 @@ int* CRM::influentiality()
 		// iterate through the colPos array
 		int total = 0;
 		for (int j = 0; j < nonZeros; j++) {
-
 			// if the value in the colPos array is the same as the column of the current user, add it to the user's total
 			if (colPos[j] == i) {
 				total += values[j];
 			}
-
 		}
 		outputVector[i] = total;
 	}
@@ -173,11 +177,36 @@ int* CRM::activity()
 }
 ;
 
-int* CRM::influentialUsers (){
-	int* outputVector = new int [n];
-	for (int i = 0; i < n; i++) outputVector[i] = 0;
+int* CRM::influentialUsers() {
+	int* copy = influentiality();
+	int* outputVector = new int[n];
+	for (int i = 0; i < n; i++) outputVector[i] = i;
 
+	int ciTemp;
+	int i, j, temp;
 	
+	for (i = 0; i < n; i++) {
+
+		for (j = i + 1; j < n; j++) {
+
+			if (copy[i] < copy[j]) {
+
+				temp = copy[i];
+				ciTemp = outputVector[i];
+
+				copy[i] = copy[j];
+				outputVector[i] = outputVector[j];
+
+				copy[j] = temp;
+				outputVector[j] = ciTemp;
+				
+			}
+		}
+	}
+
+	for (int i = 0; i < n; i++) {
+		cout << copy[i] << " ";
+	}
 
 	return outputVector;
 }
@@ -236,12 +265,12 @@ int main ( ) {
 //	cout << "Most active user: " << mostAct << endl;
 //	cout << endl;
 //
-//Rank users based on how much influential they are
- //   int* influentialityVector = (*A).influentialUsers ();
-	//cout << "Users ranked by Influentiality: " << endl;
- //   for (int i=0; i < (*A).getNumRows ( ); i++) 
-	//	cout << influentialityVector [i] << " ";
- //   cout << endl << endl;
+// Rank users based on how much influential they are
+    int* influentialityVector = (*A).influentialUsers ();
+	cout << "Users ranked by Influentiality: " << endl;
+    for (int i=0; i < (*A).getNumRows ( ); i++) 
+		cout << influentialityVector [i] << " ";
+    cout << endl << endl;
 //
 ////Rank users based on how much active they are
 ////fill-in code

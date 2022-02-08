@@ -113,11 +113,11 @@ void CRM::display()
 	for (int i = 0; i < nonZeros; i++) {
 		cout << values[i] << " ";
 	}
-	cout << "\n rowPos: ";
+	cout << "\nrowPos: ";
 	for (int i = 0; i < n; i++) {
 		cout << rowPos[i] << " ";
 	}
-	cout << "\n colPos: ";
+	cout << "\ncolPos: ";
 	for (int i = 0; i < nonZeros; i++) {
 		cout << colPos[i] << " ";
 	}
@@ -294,6 +294,8 @@ int main ( ) {
 
    (*A).display ( );
 
+   cout << endl;
+
 //Find most influential user
 	int mostInf = (*A).mostInfluentialUser ();
 	cout << "Most influential user: " << mostInf << endl;
@@ -323,11 +325,11 @@ int main ( ) {
     for (int i=0; i < (*A).getNumRows ( ); i++) 
 		cout << activityVector[i] << " ";
     cout << endl;
-//
-//// Call the destructors
-//     delete A;
-//     delete [ ] influentialVector;
-//     delete ___; 
+
+// call the destructors
+     delete A;
+     delete [ ] influentialityVector;
+     delete [ ] activityVector; 
 
     return 0;
 }

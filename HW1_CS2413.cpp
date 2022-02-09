@@ -1,5 +1,4 @@
 #include <iostream>
-#include "template1.h"
 using namespace std;
 
 class CRM {
@@ -185,16 +184,28 @@ int* CRM::activity()
 		int total = 0;
 
 		//Iterate through values array
-		do{
-			total += values[indexOfValues];
-			indexOfValues++;
-		} while (indexOfValues < rowPos[i + 1]);
+		if (rowPos[i + 1] == -1) {
+			while (indexOfValues < rowPos[i + 2]) {
+				total += values[indexOfValues];
+				indexOfValues++;
+			}
+			outputVector[i + 1] = 0;
+			outputVector[i] = total;
+			i++;
+		}
+		else {
+			while (indexOfValues < rowPos[i + 1]) {
+				total += values[indexOfValues];
+				indexOfValues++;
+			}
+			outputVector[i] = total;
+		}
 		
-		outputVector[i] = total;
+		
 	}
-	/*for (int k = 0; k < n; k++) {
+	for (int k = 0; k < n; k++) {
 		cout << outputVector[k] << " ";
-	}*/
+	}
 	return outputVector;
 }
 ;
@@ -242,7 +253,17 @@ int* CRM::activeUsers()
 	// selection sort
 	for (i = 0; i < n; i++) {
 		for (j = i + 1; j < n; j++) {
-			if (copy[i] < copy[j]) {
+			/*
+			*  1 < 4            i = 0   j = 2
+			3 1 4 4 5 6 7
+			0 1 2 3 4 5 6
+			*  temp = 1;
+			*  copy[i] = 3;
+			*  copy[j] = 1;
+			*/
+
+
+			if (copy[i] < copy[j]) {          
 				temp = copy[i];
 				ciTemp = outputVector[i];
 
@@ -252,6 +273,22 @@ int* CRM::activeUsers()
 				copy[j] = temp;
 				outputVector[j] = ciTemp;
 			}
+
+			// if the values are equal, 
+			//if (copy[i] == copy[j]) {
+			//	// then the earlier position is given to the one with the lower id
+			//	if (outputVector[j] < outputVector[i]) {
+			//		ciTemp = outputVector[i];
+			//		outputVector[i] = outputVector[j];
+			//		outputVector[j] = ciTemp;
+			//	}
+			//	else if (outputVector[i] > outputVector[j]) {
+			//		ciTemp = outputVector[j];
+			//		outputVector[j] = outputVector[i];
+			//		outputVector[i] = ciTemp;
+			//	}
+			//	
+			//}
 		}
 	}
 
@@ -304,7 +341,6 @@ int main ( ) {
 //Find most active user
 
 	(*A).activity();
-	cout << endl;
 
 	int mostAct = (*A).mostActiveUser();
 	cout << "Most active user: " << mostAct << endl;
@@ -313,7 +349,7 @@ int main ( ) {
 
 // Rank users based on how much influential they are
     int* influentialityVector = (*A).influentialUsers ();
-	cout << "Users ranked by Influentiality: " << endl;
+	cout << "Users ranked by Influentiality: ";
     for (int i=0; i < (*A).getNumRows ( ); i++) 
 		cout << influentialityVector [i] << " ";
     cout << endl << endl;
@@ -321,7 +357,7 @@ int main ( ) {
 //Rank users based on how much active they are
 //fill-in code
 	int* activityVector = (*A).activeUsers();
-	cout << "Users ranked by Activity: " << endl;
+	cout << "Users ranked by Activity: ";
     for (int i=0; i < (*A).getNumRows ( ); i++) 
 		cout << activityVector[i] << " ";
     cout << endl;

@@ -193,6 +193,14 @@ int* CRM::activity()
 			outputVector[i] = total;
 			i++;
 		}
+		// last element of array
+		else if (i == n - 1) {
+			while (indexOfValues < nonZeros) {
+				total += values[indexOfValues];
+				indexOfValues++;
+			}
+			outputVector[i] = total;
+		}
 		else {
 			while (indexOfValues < rowPos[i + 1]) {
 				total += values[indexOfValues];
@@ -203,9 +211,9 @@ int* CRM::activity()
 		
 		
 	}
-	for (int k = 0; k < n; k++) {
+	/*for (int k = 0; k < n; k++) {
 		cout << outputVector[k] << " ";
-	}
+	}*/
 	return outputVector;
 }
 ;
@@ -274,21 +282,21 @@ int* CRM::activeUsers()
 				outputVector[j] = ciTemp;
 			}
 
-			// if the values are equal, 
-			//if (copy[i] == copy[j]) {
-			//	// then the earlier position is given to the one with the lower id
-			//	if (outputVector[j] < outputVector[i]) {
-			//		ciTemp = outputVector[i];
-			//		outputVector[i] = outputVector[j];
-			//		outputVector[j] = ciTemp;
-			//	}
-			//	else if (outputVector[i] > outputVector[j]) {
-			//		ciTemp = outputVector[j];
-			//		outputVector[j] = outputVector[i];
-			//		outputVector[i] = ciTemp;
-			//	}
-			//	
-			//}
+			 //if the values are equal, 
+			if (copy[i] == copy[j]) {
+				// then the earlier position is given to the one with the lower id
+				if (outputVector[j] < outputVector[i]) {
+					ciTemp = outputVector[i];
+					outputVector[i] = outputVector[j];
+					outputVector[j] = ciTemp;
+				}
+				else if (outputVector[i] > outputVector[j]) {
+					ciTemp = outputVector[j];
+					outputVector[j] = outputVector[i];
+					outputVector[i] = ciTemp;
+				}
+				
+			}
 		}
 	}
 
